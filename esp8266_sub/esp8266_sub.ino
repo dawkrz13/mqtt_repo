@@ -1,6 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
+#define BLUE_LED_PIN 2
+
 // WiFi
 const char *ssid = "";
 const char *password = "";
@@ -8,7 +10,7 @@ const char *password = "";
 // MQTT Broker
 const char *mqtt_broker = "";
 const char *topic = "sisk";
-const char *mqtt_username = "mosquitto";
+const char *mqtt_username = "foobar";
 const char *mqtt_password = "public";
 const int mqtt_port = 1883;
 
@@ -17,6 +19,8 @@ PubSubClient client(espClient);
 
 void setup()
 {
+  // Initialise the BLUE_LED_PIN as an output
+  pinMode(BLUE_LED_PIN, OUTPUT);
   // Set baudrate to 115200;
   Serial.begin(115200);
   // Connect to a WiFi network
@@ -32,7 +36,7 @@ void setup()
   client.setCallback(callback);
   while (!client.connected())
   {
-      String client_id = "esp8266-2-";
+      String client_id = "esp8266-sub-";
       client_id += String(WiFi.macAddress());
       Serial.printf("Client %s connected to the public MQTT broker\n", client_id.c_str());
       if (client.connect(client_id.c_str(), mqtt_username, mqtt_password))
@@ -46,8 +50,7 @@ void setup()
           delay(2000);
       }
   }
-  // publish and subscribe
-  client.publish(topic, "msgX");
+  // subscribe the topic
   client.subscribe(topic);
 }
 
@@ -63,6 +66,13 @@ void callback(char *topic, byte *payload, unsigned int length)
   }
   Serial.println();
   Serial.println("-----------------------");
+
+  // Blink LED
+  for (int i = 0; i < 10; i++)
+  {
+      digitalWrite(BLUE_LED_PIN, !digitalRead(BLUE_LED_PIN));
+      delay(500);
+  }
 }
 
 void loop()

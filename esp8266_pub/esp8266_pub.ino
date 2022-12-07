@@ -1,6 +1,8 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
+#define BUTTON_PIN 0
+
 // WiFi
 const char *ssid = "";
 const char *password = "";
@@ -8,7 +10,7 @@ const char *password = "";
 // MQTT Broker
 const char *mqtt_broker = "";
 const char *topic = "sisk";
-const char *mqtt_username = "mosquitto";
+const char *mqtt_username = "foobar";
 const char *mqtt_password = "public";
 const int mqtt_port = 1883;
 
@@ -17,6 +19,7 @@ PubSubClient client(espClient);
 
 void setup()
 {
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
   // Set baudrate to 115200;
   Serial.begin(115200);
   // Connect to a WiFi network
@@ -32,7 +35,7 @@ void setup()
   client.setCallback(callback);
   while (!client.connected())
   {
-      String client_id = "esp8266-1-";
+      String client_id = "esp8266-pub-";
       client_id += String(WiFi.macAddress());
       Serial.printf("Client %s connected to the public MQTT broker\n", client_id.c_str());
       if (client.connect(client_id.c_str(), mqtt_username, mqtt_password))
@@ -46,9 +49,6 @@ void setup()
           delay(2000);
       }
   }
-  // publish and subscribe
-  client.publish(topic, "msgY");
-  client.subscribe(topic);
 }
 
 void callback(char *topic, byte *payload, unsigned int length)
@@ -68,4 +68,11 @@ void callback(char *topic, byte *payload, unsigned int length)
 void loop()
 {
   client.loop();
+
+  if (digitalRead(BUTTON_PIN) == LOW)
+  {
+      // publish to the topic
+      client.publish(topic, "blink");
+      delay(1000);
+  }
 }
