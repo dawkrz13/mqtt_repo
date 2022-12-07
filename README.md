@@ -6,5 +6,15 @@ Sample MQTT project with Raspberry Pi as broker and ESP8266 as clients.
 3. Narzędzia -> Płytka -> Generic ESP8266 Module
 4. Szkic -> Dołącz bibliotekę -> Zarządzaj bibliotekami: PubSubClient
 
-Lab301
-l@b30!l@b30!
+Lab WiFi login data:\
+ssid: Lab301\
+password: l@b30!l@b30!
+
+MQTT broker test:\
+ssh pi@raspberrypi.local
+
+Terminal 1: Subscribe to topic:\
+mosquitto_sub -d -t topic_name
+
+Terminal 2: Publish message:\
+mosquitto_pub -d -t topic_name -m "message"
