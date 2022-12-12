@@ -35,7 +35,7 @@ mosquitto_sub -d -t topic_name
 ```
 Open another terminal and publish a sample message to *testTopic*:
 ```
-pi@raspberry:~$ mosquitto_pub -d -t topic_name -m "message"
+mosquitto_pub -d -t topic_name -m "message"
 ```
 The message should appear in the first terminal.
 
