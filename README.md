@@ -46,6 +46,6 @@ Firstly, we need to define our network credentials. Spot that part in the code a
 | ------------- | ------------ |
 | lab301        | l@b30!l@b30! |
 
-Next, find a block of code where MQTT data is defined and fill it with proper data. Provide MQTT broker address in particular (assign it to `const char *mqtt_broker` variable).
+Next, find a block of code where MQTT data is defined and fill it with proper data. Provide MQTT broker address in particular (assign it to `const char *mqtt_broker` variable) and topic name.
 
 Examine the code and flash it to your devices. Try to communicate between publishers and subscribers within the network. Use the peripherals defined in the code. Watch serial monitor as well.

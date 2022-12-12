@@ -9,7 +9,7 @@ const char *password = "";
 
 // MQTT Broker
 const char *mqtt_broker = "";
-const char *topic = "sisk";
+const char *topic = "";
 const char *mqtt_username = "foobar";
 const char *mqtt_password = "public";
 const int mqtt_port = 1883;
